@@ -171,7 +171,4 @@ export class DatabaseService {
         return uploadBytes(storageRef, file).then(() => getDownloadURL(storageRef));
     }
 
-
-
-
 }

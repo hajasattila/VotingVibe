@@ -1,6 +1,7 @@
 <div class="flex flex-col lg:flex-row min-h-screen text-gray-800 dark:text-gray-100 transition-colors duration-300 pt-24 px-4">
 
 
+
     <div *ngIf="isLoading"
          class="fixed inset-0 flex items-center justify-center z-50 bg-white dark:bg-gray-900 bg-opacity-90">
         <div class="relative w-16 h-16">
@@ -10,18 +11,29 @@
     </div>
     <div class="w-full max-w-4xl mx-auto bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-xl animate-fade-in">
 
-        <button
-                (click)="goBackToRoom()"
-                class=" flex items-center gap-1 text-indigo-600 dark:text-indigo-300 hover:text-indigo-800 dark:hover:text-indigo-100 transition"
-        >
-            <span class="material-icons-outlined">arrow_back</span>
-        </button>
+        <div class="flex justify-between items-center mb-4">
+            <button
+                    (click)="goBackToRoom()"
+                    class="flex items-center gap-1 text-indigo-600 dark:text-indigo-300 hover:text-indigo-800 dark:hover:text-indigo-100 transition"
+            >
+                <span class="material-icons-outlined">arrow_back</span>
+            </button>
+
+            <div class="flex items-end gap-1 text-indigo-600 dark:text-indigo-300 hover:text-indigo-800 dark:hover:text-indigo-100 transition text-sm md:text-base">
+                {{ 'room.statsChart.roomIdLabel' | translate }}:
+                <span class="font-mono">{{ roomId }}</span>
+            </div>
+        </div>
+
+
+
 
 
         <h2 class="text-3xl md:text-4xl font-bold text-indigo-600 dark:text-indigo-300 text-center mb-6 flex items-center justify-center gap-2">
             <span class="material-icons-outlined text-4xl">insert_chart</span>
             {{ 'room.statsChart.title' | translate }}
         </h2>
+
 
 
         <div class="flex flex-col lg:flex-row gap-4 items-start mb-6">

@@ -147,6 +147,7 @@
     "moreStats": "More statictics",
     "createdAt": "Created",
     "statsChart": {
+      "roomIdLabel": "Room ID",
       "clickToViewInfo": "Curious which image is which? Click to view more details.",
       "previewImage": "Preview image",
       "anonymousWarning": "This is an anonymous room, votes cannot be tracked.",

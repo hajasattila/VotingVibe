@@ -37,35 +37,29 @@ export class ProfileSearchComponent implements OnInit {
 
     ngOnInit() {
         this.authService.getCurrentUser().subscribe((user) => {
-            if (user) {
-                this.isAuthenticated = true;
-                this.currentUserId = user.uid;
+            this.isAuthenticated = !!user;
+            this.currentUserId = user?.uid ?? null;
 
-                this.userService.getUserById(user.uid).pipe(take(1)).subscribe(profile => {
+            if (this.isAuthenticated && this.currentUserId) {
+                this.userService.getUserById(this.currentUserId).pipe(take(1)).subscribe(profile => {
                     this.currentUser = profile;
                 });
+            }
 
-                this.filteredUsers$ = this.searchControl.valueChanges.pipe(
-                    startWith(""),
-                    switchMap((text) =>
-                        text
-                            ? this.userService.getFilteredUsers(text).pipe(
-                                map(users =>
-                                    users.filter(
-                                        user =>
-                                            user.uid !== this.currentUserId
-                                    )
+            this.filteredUsers$ = this.searchControl.valueChanges.pipe(
+                startWith(""),
+                switchMap((text) =>
+                    text
+                        ? this.userService.getFilteredUsers(text).pipe(
+                            map(users =>
+                                users.filter(user =>
+                                    !this.currentUserId || user.uid !== this.currentUserId
                                 )
                             )
-                            : of([])
-                    )
-                );
-
-            } else {
-                this.isAuthenticated = false;
-                this.currentUserId = null;
-                this.filteredUsers$ = of([]);
-            }
+                        )
+                        : of([])
+                )
+            );
         });
     }
 

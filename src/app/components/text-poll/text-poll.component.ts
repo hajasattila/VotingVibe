@@ -78,7 +78,16 @@ export class TextPollComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngOnInit(): void {
         this.authService.getCurrentUser().subscribe(user => {
-            this.currentUser = user;
+            if (user) {
+                this.currentUser = user;
+            } else {
+                const guestId = sessionStorage.getItem('guestId');
+                if (guestId) {
+                    this.currentUser = {
+                        uid: `guest_${guestId}`
+                    } as User;
+                }
+            }
         });
 
         this.clickSound.load();
@@ -87,6 +96,7 @@ export class TextPollComponent implements OnInit, AfterViewInit, OnDestroy {
         const roomCode = this.route.snapshot.paramMap.get('code');
         if (roomCode) this.loadPollData(roomCode);
     }
+
 
     ngOnDestroy(): void {
         this.timerSubscription?.unsubscribe();

@@ -237,14 +237,14 @@ export class GameComponent implements OnInit {
             return;
         }
 
-        if (!this.currentUser) {
-            this.translate.get('room.error.loginRequiredJoin').subscribe(res => {
-                this.snackbarService.error(res);
-            });
-            return;
-        }
+        const guestId = this.getOrCreateGuestId();
+        const guestDisplayName = `Vendég#${guestId}`;
 
-        const currentUserId = this.currentUser.uid;
+        const userToJoin: ProfileUser = this.currentUser ?? this.createGuestUser(`guest_${guestId}`, guestDisplayName);
+
+
+
+        const currentUserId = userToJoin.uid;
 
         this.dbService.getRoomByCode(this.enteredRoomCode).subscribe((room) => {
             if (!room) {
@@ -277,21 +277,25 @@ export class GameComponent implements OnInit {
                 });
                 this.router.navigate(['/room', this.enteredRoomCode]);
             } else {
-                this.dbService.updateRoomMembers(room.docId, this.currentUser!).subscribe(() => {
+                this.dbService.updateRoomMembers(room.docId, userToJoin).subscribe(() => {
                     this.translate.get('room.success.joined').subscribe(res => {
                         this.snackbarService.success(res);
                     });
 
-                    this.userService.addRoomToUser(currentUserId, room).subscribe(() => {
-                        this.translate.get('room.success.addedToProfile').subscribe(res => {
-                            this.snackbarService.success(res);
+                    if (this.isAuthenticated && this.currentUser) {
+                        this.userService.addRoomToUser(currentUserId, room).subscribe(() => {
+                            this.translate.get('room.success.addedToProfile').subscribe(res => {
+                                this.snackbarService.success(res);
+                            });
+                            this.router.navigate(['/room', this.enteredRoomCode]);
+                        }, (error) => {
+                            this.translate.get('room.error.addToProfile', {error: error.message}).subscribe(res => {
+                                this.snackbarService.error(res);
+                            });
                         });
+                    } else {
                         this.router.navigate(['/room', this.enteredRoomCode]);
-                    }, (error) => {
-                        this.translate.get('room.error.addToProfile', {error: error.message}).subscribe(res => {
-                            this.snackbarService.error(res);
-                        });
-                    });
+                    }
 
                 }, (error) => {
                     this.translate.get('room.error.joinFailed', {error: error.message}).subscribe(res => {
@@ -300,6 +304,27 @@ export class GameComponent implements OnInit {
                 });
             }
         });
+    }
+
+    private getOrCreateGuestId(): string {
+        const existingId = sessionStorage.getItem('guestId');
+        if (existingId) return existingId;
+
+        const newId = Math.floor(Math.random() * 100000).toString();
+        sessionStorage.setItem('guestId', newId);
+        return newId;
+    }
+
+    private createGuestUser(uid: string, displayName: string): ProfileUser {
+        return {
+            uid,
+            displayName
+        };
+    }
+
+
+    onRoomCodeInput(value: string): void {
+        this.enteredRoomCode = value.toUpperCase();
     }
 
 

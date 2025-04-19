@@ -147,6 +147,7 @@
     "moreStats": "További statisztikák",
     "createdAt": "Létrehozva",
     "statsChart": {
+      "roomIdLabel": "Szoba azonosító",
       "clickToViewInfo": "Kíváncsi vagy melyik kép melyik opció volt? Kattints a részletekért.",
       "showAllImages": "Összes kép megjelenítése",
       "hideImages": "Képek elrejtése",

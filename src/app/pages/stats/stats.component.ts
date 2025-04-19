@@ -46,6 +46,9 @@ export class StatsComponent implements OnInit, AfterViewInit {
     protected selectedChartType: string = 'pie';
     protected chartDropdownOpen = false;
 
+    public roomId: string = '';
+
+
 
     constructor(
         private route: ActivatedRoute,
@@ -128,9 +131,10 @@ export class StatsComponent implements OnInit, AfterViewInit {
                 this.isLoading = false;
                 return;
             }
+
+            this.roomId = room.roomId; // <-- EZT ADTAM HOZZÁ
+
             this.isPictureBased = room.voteType === 'picture';
-
-
             this.isAnonymous = room.isAnonymous ?? true;
             this.originalOptions = room.poll.options;
 

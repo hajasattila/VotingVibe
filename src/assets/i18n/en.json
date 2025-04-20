@@ -142,6 +142,8 @@
     "github": "Sign in with GitHub"
   },
   "room": {
+    "noMatches": "No matches found",
+    "search": "Search rooms by name...",
     "errorMaxImages": "You can upload up to 10 images",
     "desktopPlaceholder": "Upload an image (click or drag)",
     "mobilePlaceholder": "Take a picture!",

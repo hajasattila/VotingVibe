@@ -22,7 +22,7 @@ import {RoomModel} from "../../../api/models/room.model";
 export class ProfileComponent implements OnInit {
     user$ = this.usersService.currentUserProfile$;
     user?: ProfileUser;
-    showFriendRequests = false;
+    showFriendRequests = true;
     @Input() friends: ProfileUser[] = [];
 
     imageLoaded: boolean = false;
@@ -37,7 +37,6 @@ export class ProfileComponent implements OnInit {
     readonlyProfile = false;
 
     isLoading: boolean = true;
-
 
     profileForm = this.fb.group({
         uid: [""],
@@ -254,8 +253,6 @@ export class ProfileComponent implements OnInit {
 
 
     showResetModal = false;
-
-
 
     confirmResetPassword(): void {
         this.user$.pipe(take(1)).subscribe((user) => {

@@ -425,8 +425,8 @@ export class HomeComponent implements OnInit {
         const sortedRooms = rooms
             .filter(room => !!room.pollResults && !!room.poll?.options)
             .sort((a, b) => {
-                const dateA = a.createdAt ? a.createdAt.getTime() : 0;
-                const dateB = b.createdAt ? b.createdAt.getTime() : 0;
+                const dateA = this.normalizeTimestamp(a.createdAt).getTime();
+                const dateB = this.normalizeTimestamp(b.createdAt).getTime();
                 return dateB - dateA;
             })
             .slice(0, 3);

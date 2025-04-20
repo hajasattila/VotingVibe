@@ -23,6 +23,7 @@ export class StatsComponent implements OnInit, AfterViewInit {
     public imagePreviewUrl: string | null = null;
 
     showAllImages = false;
+    noChartData: boolean = false;
 
 
     public chartOptions!: ChartOptions;
@@ -124,71 +125,89 @@ export class StatsComponent implements OnInit, AfterViewInit {
 
     ngOnInit(): void {
         const code = this.route.snapshot.paramMap.get('code');
-        if (!code) return;
-
-        this.dbService.watchRoomByCode(code).subscribe(room => {
-            if (!room?.pollResults || !room.poll?.options) {
-                this.isLoading = false;
-                return;
-            }
-
-            this.roomId = room.roomId; //
-
-            this.isPictureBased = room.voteType === 'picture';
-            this.isAnonymous = room.isAnonymous ?? true;
-            this.originalOptions = room.poll.options;
-
-            const isImageOption = (opt: string): boolean =>
-                /^https?:\/\/.+\.(jpg|jpeg|png|webp|gif|bmp|svg)(\?.*)?$/i.test(opt) ||
-                opt.includes('firebasestorage.googleapis.com');
-
-            this.labels = room.poll.options.map((opt, i) =>
-                isImageOption(opt) ? `🖼️ Kép ${i + 1}` : opt
-            );
-
-            const userMap: Record<string, string> = {};
-
-            if (!this.isAnonymous) {
-                this.voterDetails = Object.entries(room.pollResults)
-                    .filter(([_, userVotes]) => userVotes && typeof userVotes === 'object')
-                    .map(([uid, userVotes]) => {
-                        userMap[uid] = room.members?.find(m => m.uid === uid)?.displayName || uid;
-                        return { uid, votes: userVotes };
-                    });
-
-                this.userDisplayMap = userMap;
-                this.voterUids = this.voterDetails.map(v => v.uid);
-            } else {
-                this.voterDetails = [{
-                    uid: 'all',
-                    votes: Object.entries(room.pollResults || {})
-                        .reduce((agg, [_, userVotes]) => {
-                            if (userVotes && typeof userVotes === 'object') {
-                                Object.entries(userVotes).forEach(([option, count]) => {
-                                    agg[option] = (agg[option] || 0) + count;
-                                });
-                            }
-                            return agg;
-                        }, {} as Record<string, number>)
-                }];
-            }
-
-            const getVoteCount = (option: string) => {
-                return this.voterDetails.reduce((sum, v) => sum + (v.votes?.[option] || 0), 0);
-            };
-
-            this.series = room.poll.options.map(opt => getVoteCount(opt));
-            this.originalLabels = [...this.labels];
-            this.originalSeries = [...this.series];
-
-            this.updateChart();
+        if (!code) {
             this.isLoading = false;
+            return;
+        }
+
+        this.dbService.watchRoomByCode(code).subscribe({
+            next: (room) => {
+                console.log('[ROOM DEBUG] room objektum:', room);
+
+                if (!room?.pollResults || !room.poll?.options || room.poll.options.length === 0) {
+                    console.warn('[ROOM WARNING] pollResults vagy options hiányzik:', {
+                        pollResults: room?.pollResults,
+                        options: room?.poll?.options
+                    });
+                    this.noChartData = true;
+                    this.isLoading = false;
+                    return;
+                }
+
+
+                this.roomId = room.roomId;
+                this.isPictureBased = room.voteType === 'picture';
+                this.isAnonymous = room.isAnonymous ?? true;
+                this.originalOptions = room.poll.options;
+
+                const isImageOption = (opt: string): boolean =>
+                    /^https?:\/\/.+\.(jpg|jpeg|png|webp|gif|bmp|svg)(\?.*)?$/i.test(opt) ||
+                    opt.includes('firebasestorage.googleapis.com');
+
+                this.labels = room.poll.options.map((opt, i) =>
+                    isImageOption(opt) ? `🖼️ Kép ${i + 1}` : opt
+                );
+
+                const userMap: Record<string, string> = {};
+
+                if (!this.isAnonymous) {
+                    this.voterDetails = Object.entries(room.pollResults)
+                        .filter(([_, userVotes]) => userVotes && typeof userVotes === 'object')
+                        .map(([uid, userVotes]) => {
+                            userMap[uid] = room.members?.find(m => m.uid === uid)?.displayName || uid;
+                            return { uid, votes: userVotes };
+                        });
+
+                    this.userDisplayMap = userMap;
+                    this.voterUids = this.voterDetails.map(v => v.uid);
+                } else {
+                    this.voterDetails = [{
+                        uid: 'all',
+                        votes: Object.entries(room.pollResults || {})
+                            .reduce((agg, [_, userVotes]) => {
+                                if (userVotes && typeof userVotes === 'object') {
+                                    Object.entries(userVotes).forEach(([option, count]) => {
+                                        agg[option] = (agg[option] || 0) + count;
+                                    });
+                                }
+                                return agg;
+                            }, {} as Record<string, number>)
+                    }];
+                }
+
+                console.log('[CHART DEBUG] labels:', this.labels);
+                console.log('[CHART DEBUG] voterDetails:', this.voterDetails);
+
+                const getVoteCount = (option: string) => {
+                    return this.voterDetails.reduce((sum, v) => sum + (v.votes?.[option] || 0), 0);
+                };
+
+                this.series = room.poll.options.map(opt => getVoteCount(opt));
+                this.originalLabels = [...this.labels];
+                this.originalSeries = [...this.series];
+
+                console.log('[CHART DEBUG] series:', this.series);
+
+                this.updateChart();
+                this.isLoading = false;
+            },
+            error: (err) => {
+                console.error('[ROOM ERROR] nem sikerült lekérni a szobát:', err);
+                this.isLoading = false;
+            }
         });
     }
 
-    scrollToTop(): void {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
 
 
     updateChart(): void {

@@ -17,6 +17,5 @@ export interface ProfileUser {
     sentFriendRequests?: string[];
     gameRooms?: RoomModel[];
     pendingInvites?: RoomInvite[];
-
 }
 

@@ -143,6 +143,8 @@
     "github": "GitHub belépés"
   },
   "room": {
+    "noMatches": "Nincs találat",
+    "search": "Szobák keresése név szerint...",
     "errorMaxImages": "Legfeljebb 10 képet tölthetsz fel",
     "desktopPlaceholder": "Kép feltöltése (kattints vagy húzd be)",
     "mobilePlaceholder": "Készíts képet!",

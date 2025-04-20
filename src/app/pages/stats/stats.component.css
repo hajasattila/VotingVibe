@@ -24,16 +24,16 @@
         background-position: 0 0;
     }
     100% {
-        background-position: 200% 200%;
+        background-position: 400% 400%;
     }
 }
 
 .bg-fireworks {
-    background-image: radial-gradient(circle at 10% 20%, #facc15, transparent 30%),
+    background-image: radial-gradient(circle at 10% 20%, #facc15, transparent 70%),
     radial-gradient(circle at 80% 10%, #ef4444, transparent 30%),
     radial-gradient(circle at 50% 50%, #3b82f6, transparent 30%),
     radial-gradient(circle at 30% 80%, #a78bfa, transparent 30%);
-    background-size: 400% 400%;
+    background-size: 600% 600%;
 }
 
 .animate-fireworks {
@@ -80,21 +80,6 @@
     }
 }
 
-.pyro > .before,
-.pyro > .after {
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: transparent;
-    box-shadow: 0 0 #fff;
-    animation: bang 1s ease-out infinite, gravity 1s ease-in infinite, position 5s linear infinite;
-    pointer-events: none;
-}
-
-.pyro > .after {
-    animation-delay: 1.25s, 1.25s, 1.25s;
-}
 .bounce-slow {
     animation: bounce-slow 3s ease-in-out infinite;
 }
@@ -134,5 +119,42 @@
 .zoom-animate {
     animation: zoomFromAvatar 0.3s ease-out;
     transform-origin: center;
+}
+@keyframes bang {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow:
+                0 0 0 hsl(0, 100%, 60%),
+                0 0 0 hsl(40, 100%, 60%),
+                0 0 0 hsl(120, 100%, 60%),
+                0 0 0 hsl(210, 100%, 60%),
+                0 0 0 hsl(280, 100%, 60%);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.8);
+        box-shadow:
+                80px 100px hsl(0, 100%, 60%),
+                -100px -50px hsl(40, 100%, 60%),
+                60px -120px hsl(120, 100%, 60%),
+                -80px 120px hsl(210, 100%, 60%),
+                110px -80px hsl(280, 100%, 60%);
+    }
+}
+
+.pyro > .before,
+.pyro > .after {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: transparent;
+    animation: bang 2s ease-out infinite, gravity 2s ease-in infinite, position 5s linear infinite;
+    pointer-events: none;
+}
+
+.pyro > .after {
+    animation-delay: 1.5s, 1.5s, 1.5s;
 }
 

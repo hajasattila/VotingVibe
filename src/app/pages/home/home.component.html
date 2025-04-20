@@ -321,6 +321,16 @@
                 {{ 'room.yourRooms' | translate }}
             </h2>
         </div>
+        <div class="mb-4">
+            <input
+                    type="text"
+                    [(ngModel)]="roomQuery"
+                    class="w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-900 dark:text-gray-100 transition"
+                    [placeholder]="'room.search' | translate"
+                    autocomplete="off"
+            />
+        </div>
+
 
         <ng-container *ngIf="isRoomLoading; else loadedRooms">
             <div class="text-center py-6">
@@ -334,24 +344,31 @@
         <ng-template #loadedRooms>
             <ng-container *ngIf="userRooms.length > 0; else noRooms">
                 <ul class="list-none text-start space-y-2">
-                    <li *ngFor="let room of userRooms.slice()">
+                    <li *ngFor="let room of filteredRooms()">
                         <a (click)="navigateToRoom(room)"
                            class="block w-full text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 cursor-pointer underline px-2 py-1 break-words">
                             {{ room.roomName }} ({{ 'room.code' | translate }}: {{ room.roomId }})
                             <span *ngIf="room.creator?.uid === currentUserUid"
                                   class="ml-2 text-sm text-yellow-600 dark:text-yellow-400 font-semibold">
-                👑
-            </span>
+                                👑
+                            </span>
                         </a>
                         <div *ngIf="room.createdAt" class="text-sm text-gray-500 dark:text-gray-400 px-2">
                             {{ 'room.createdAt' | translate }}: {{ room.createdAt | date: 'yyyy.MM.dd - HH:mm' }}
                         </div>
-
                     </li>
                 </ul>
 
 
             </ng-container>
+            <p
+                    *ngIf="filteredRooms().length === 0"
+                    class="text-gray-500 dark:text-gray-400 text-center mt-4"
+            >
+                {{ 'room.noMatches' | translate }}
+            </p>
+
+
         </ng-template>
 
 

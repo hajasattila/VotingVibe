@@ -232,6 +232,14 @@ export class HomeComponent implements OnInit {
         });
     }
 
+    roomQuery: string = '';
+
+    filteredRooms(): RoomModel[] {
+        const q = this.roomQuery?.trim().toLowerCase();
+        if (!q) return this.userRooms;
+        return this.userRooms.filter(room => room.roomName?.toLowerCase().includes(q));
+    }
+
     logout() {
         this.cacheService.clear();
         sessionStorage.removeItem('lastRoomHash');
@@ -272,8 +280,8 @@ export class HomeComponent implements OnInit {
                             createdAt: this.normalizeTimestamp(room.createdAt)
                         }))
                         .sort((a, b) => {
-                            const dateA = a.createdAt ? a.createdAt.getTime() : 0;
-                            const dateB = b.createdAt ? b.createdAt.getTime() : 0;
+                            const dateA = a.createdAt instanceof Date ? a.createdAt.getTime() : 0;
+                            const dateB = b.createdAt instanceof Date ? b.createdAt.getTime() : 0;
                             return dateB - dateA;
                         })
 

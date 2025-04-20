@@ -364,8 +364,6 @@ export class ProfileComponent implements OnInit {
 
     confirmFriendAction() {
         if (!this.selectedUserToModify || !this.user?.uid) return;
-
-        const currentUserId = this.user.uid;
         const friendId = this.selectedUserToModify.uid;
 
         if (this.isFriend) {

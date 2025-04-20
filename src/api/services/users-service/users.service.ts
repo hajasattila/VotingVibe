@@ -194,8 +194,6 @@ export class UsersService {
                         }
 
                         const currentUserData = currentUserDoc.data();
-                        const friendData = friendDoc.data();
-
                         const friendObject = { uid: friend.uid, displayName: friend.displayName };
                         const currentUserObject = { uid: currentUser.uid, displayName: currentUserData["displayName"] };
 

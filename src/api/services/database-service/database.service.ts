@@ -10,7 +10,7 @@ import {
     where,
     DocumentReference, onSnapshot
 } from "@angular/fire/firestore";
-import {BehaviorSubject, Observable, from, map, switchMap} from "rxjs";
+import {Observable, from, map, switchMap} from "rxjs";
 import {RoomModel, textPollModel} from "../../models/room.model";
 import {ProfileUser} from "../../models/user.model";
 import {inject, Injectable} from '@angular/core';

@@ -14,6 +14,7 @@ import {combineLatest, Observable, of, Subscription, switchMap} from "rxjs";
 import {filter, map, take} from "rxjs/operators";
 import {TranslateService} from "@ngx-translate/core";
 import {SnackbarService} from "../../../api/services/snackbar-service/snackbar-service.service";
+import {CacheService} from "../../../api/services/cache-service/cache.service";
 
 @Component({
     selector: 'app-nav-bar',
@@ -52,8 +53,8 @@ export class NavBarComponent implements OnInit, OnDestroy {
         private eRef: ElementRef,
         private cdr: ChangeDetectorRef,
         protected translate: TranslateService,
-        private snackbar: SnackbarService
-
+        private snackbar: SnackbarService,
+        protected cacheService: CacheService,
     ) {
         this.themeService.initTheme();
         this.initLanguage();
@@ -168,6 +169,9 @@ export class NavBarComponent implements OnInit, OnDestroy {
     }
 
     logout() {
+        this.cacheService.clear();
+        sessionStorage.removeItem('lastRoomHash');
+        sessionStorage.removeItem('lastRoomCharts');
         this.profileDropdownOpen = false;
         this.authService.logout().subscribe(() => {
             this.router.navigate(['/']);

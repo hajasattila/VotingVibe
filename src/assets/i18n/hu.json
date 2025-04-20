@@ -1,5 +1,10 @@
 {
   "profile": {
+    "resetPasswordConfirm": "Biztosan szeretnél jelszó-visszaállító emailt küldeni?",
+    "resetPasswordConfirmBtn": "Igen, küldés",
+    "resetPasswordSuccess": "A jelszó-visszaállító email elküldve.",
+    "resetPasswordError": "Nem sikerült a jelszó-visszaállító email elküldése.",
+    "cancel": "Mégse",
     "requestPending": "Kérelem elküldve",
     "addFriend": "Jelölés",
     "removeFriend": "Törlése",
@@ -32,6 +37,7 @@
       "friendRejected": "{{name}} barátfelkérése elutasítva!"
     },
     "error": {
+      "noEmail": "A felhasználónak nincs email címe.",
       "fetchUser": "Nem sikerült lekérni a felhasználó adatokat.",
       "invalidForm": "Kérlek tölts ki minden mezőt helyesen!",
       "nameTaken": "Ez a megjelenítendő név már foglalt.",
@@ -57,6 +63,7 @@
     "profile": "Profil",
     "logout": "Kijelentkezés",
     "login": "Bejelentkezés",
+    "register": "Regisztráció",
     "steps": "Lépések",
     "friendRequestMessage": "jelölt ismerősnek!",
     "noFriendRequests": "Nincs új értesítés.",
@@ -111,7 +118,7 @@
     "introLine1": "Kapcsolódj be a szavazásba!",
     "introLine2": "Döntsetek együtt barátokkal, mi lenne a legjobb!",
     "noAccount": "Nincs még fiókod?",
-    "getStarted": "Kezdd el most!",
+    "getStarted": "REGISZITRÁLJ BE most!",
     "read": "Olvasd el a",
     "terms": "felhasználási feltételeket",
     "and": "és a",
@@ -124,6 +131,7 @@
       "invalid": "Kérlek adj meg egy érvényes email címet"
     },
     "password": {
+      "weak": "A jelszónak legalább 6 karakter hosszúnak kell lennie, és tartalmaznia kell legalább egy nagybetűt, egy kisbetűt, egy számot és egy speciális karaktert (!@#$%^&*).",
       "label": "Jelszó",
       "placeholder": "Jelszó",
       "required": "A jelszó megadása kötelező",
@@ -252,6 +260,7 @@
       "code": "Kód"
     },
     "error": {
+      "loginRequiredToCreate": "Ehhez a funkcióhoz először regisztrálnod kell!",
       "loginRequired": "Be kell jelentkezned a szoba létrehozásához.",
       "roomNameRequired": "Adj meg egy szobanevet!",
       "addToProfile": "Nem sikerült a szobát hozzáadni a profilodhoz: {{ error }}",
@@ -297,6 +306,7 @@
       "invalid": "Kérlek érvényes email címet adj meg"
     },
     "password": {
+      "weak": "A jelszónak legalább 6 karakter hosszúnak kell lennie, és tartalmaznia kell legalább egy nagybetűt, egy kisbetűt, egy számot és egy speciális karaktert (!@#$%^&*).",
       "label": "Jelszó",
       "placeholder": "Add meg a jelszót",
       "required": "A jelszó megadása kötelező"
@@ -330,6 +340,7 @@
       "seeMessages": "Üzenetek megtekintése"
     },
     "stats": {
+      "noData": "De üres itt... 😢 Miért nem csinálsz egy új szavazást?!👀",
       "card1": "Statisztika 1",
       "card2": "Statisztika 2",
       "card3": "Statisztika 3"
@@ -341,7 +352,7 @@
       "title2": "lehetőség döntéshozatalra",
       "description": "Soha nem volt ilyen egyszerű szavazásokat létrehozni, amelyeket te és a barátaid könnyedén használhattok bármilyen döntéshez!",
       "try": "Próbáld ki!",
-      "more": "Tovább"
+      "more": "További információk"
     },
     "section2": {
       "title": "Barátságok kovácsolása",
@@ -427,5 +438,66 @@
   "notifications": {
     "friendRequest": "Új barátkérelem érkezett!",
     "roomInvite": "Új szobameghívód van!"
+  },
+  "gdpr": {
+    "title": "Adatvédelmi tájékoztató (GDPR)",
+    "intro": "Ez a dokumentum bemutatja, hogyan kezeljük és védjük a személyes adatokat a VoteVibe weboldalon.",
+    "controller": {
+      "title": "Adatkezelő",
+      "text": "A jelen weboldal adatkezelője:\n\nNév: VoteVibe\nEmail: info@votevibe.hu\nWeboldal: https://votevibe.hu"
+    },
+    "dataScope": {
+      "title": "Kezelt adatok köre",
+      "registration": {
+        "title": "Regisztráció és bejelentkezés során:",
+        "email": "Email cím",
+        "displayName": "Felhasználónév (megjelenítési név)",
+        "uid": "Egyedi felhasználói azonosító (UID)",
+        "photoURL": "Profilkép (ha van)",
+        "firebaseAuth": "Firebase Authentication által kezelt azonosítók"
+      },
+      "rooms": {
+        "title": "Szavazások és szobák használata során:",
+        "results": "Szavazási eredmények",
+        "roomData": "Felhasználó által létrehozott szobák adatai",
+        "relationships": "Meghívások, barátlista, felhasználói kapcsolatok",
+        "firestoreData": "Firebase Firestore adatbázisban tárolt strukturált információk"
+      },
+      "localStorage": {
+        "title": "LocalStorage / SessionStorage:",
+        "language": "Nyelvi beállítások",
+        "preferences": "Felhasználói preferenciák (pl. sötét/világos téma)",
+        "sessionData": "Session adatok a gyorsabb betöltés és felhasználói élmény érdekében",
+        "note": "Fontos: ezek a böngészőben tárolt adatok nem kerülnek továbbításra harmadik félnek."
+      }
+    },
+    "legal": {
+      "title": "Az adatkezelés jogalapja",
+      "consent": "Az érintett hozzájárulása (GDPR 6. cikk (1) a) pont)",
+      "contract": "Szerződés teljesítése (pl. fiók létrehozása, szolgáltatás nyújtása) (GDPR 6. cikk (1) b) pont)"
+    },
+    "storage": {
+      "title": "Adattárolás helye",
+      "text": "Az adatok a Google Firebase infrastruktúráján kerülnek tárolásra. A Firebase a Google LLC szolgáltatása. Az adatkezelésre a Firebase adatvédelmi irányelve vonatkozik."
+    },
+    "retention": {
+      "title": "Adatok megőrzésének időtartama",
+      "account": "A fiók törlésével a kapcsolódó személyes adatok is törlésre kerülnek.",
+      "localSession": "A local/sessionStorage adatok automatikusan törlődnek a böngésző bezárásakor vagy kézi törlés esetén."
+    },
+    "rights": {
+      "title": "Az érintettek jogai",
+      "access": "Hozzáférni saját adataihoz",
+      "rectify": "Az adatainak helyesbítését kérni",
+      "restrict": "Az adatkezelés korlátozását kérni",
+      "delete": "Az adatok törlését kérni („az elfeledtetéshez való jog”)",
+      "object": "Az adatkezelés elleni tiltakozáshoz",
+      "portability": "Adathordozhatósághoz",
+      "complaint": "Panaszt tenni az illetékes felügyeleti hatóságnál (pl. NAIH – https://naih.hu/)"
+    },
+    "cookies": {
+      "title": "Sütik (Cookies)",
+      "text": "A weboldal nem használ marketing vagy statisztikai célú cookie-kat. A local/sessionStorage használat kizárólag a működéshez szükséges."
+    }
   }
 }

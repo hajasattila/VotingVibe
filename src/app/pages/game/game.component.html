@@ -105,10 +105,16 @@
                     <button
                             (click)="createRoom()"
                             type="button"
-                            class="bg-indigo-600 text-white py-2 px-6 rounded-lg hover:bg-indigo-700 transition mt-6 text-center flex mx-auto"
+                            [disabled]="!isAuthenticated"
+                            class="bg-indigo-600 text-white py-2 px-6 rounded-lg transition mt-6 text-center flex mx-auto
+         hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {{ 'room.generate' | translate }}
                     </button>
+
+                    <p *ngIf="!isAuthenticated" class="text-red-600 dark:text-red-400 pt-4 text-sm text-center">
+                        {{ 'room.error.loginRequiredToCreate' | translate }}
+                    </p>
                 </form>
             </div>
         </div>

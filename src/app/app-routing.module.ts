@@ -12,6 +12,7 @@ import {RoomMemberGuard} from "../api/services/room-member-service/roommembergua
 import {PageNotFoundComponent} from "./pages/page-not-found/page-not-found.component";
 import {StepsComponent} from "./pages/steps/steps.component";
 import {StatsComponent} from "./pages/stats/stats.component";
+import {GdprComponent} from "./pages/gdpr/gdpr.component";
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(["login"]);
 const redirectLoggedInToHome = () => redirectLoggedInTo(["home"]);
@@ -47,7 +48,10 @@ const routes: Routes = [
         component: ProfileComponent,
         ...canActivate(redirectUnauthorizedToLogin),
     },
-
+    {
+        path: "gdpr",
+        component: GdprComponent,
+    },
     {
         path: "game",
         component: GameComponent,

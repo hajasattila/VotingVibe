@@ -180,6 +180,7 @@ export class UsersService {
                 if (!currentUser || !currentUser.uid) {
                     return throwError(() => new Error("You must be logged in to remove friends."));
                 }
+
                 const currentUserDocRef = doc(this.firestore, `users/${currentUser.uid}`);
                 const friendDocRef = doc(this.firestore, `users/${friend.uid}`);
 
@@ -187,14 +188,23 @@ export class UsersService {
                     runTransaction(this.firestore, async (transaction) => {
                         const currentUserDoc = await transaction.get(currentUserDocRef);
                         const friendDoc = await transaction.get(friendDocRef);
+
                         if (!currentUserDoc.exists() || !friendDoc.exists()) {
                             throw new Error("One of the user profiles does not exist.");
                         }
+
+                        const currentUserData = currentUserDoc.data();
+                        const friendData = friendDoc.data();
+
+                        const friendObject = { uid: friend.uid, displayName: friend.displayName };
+                        const currentUserObject = { uid: currentUser.uid, displayName: currentUserData["displayName"] };
+
                         transaction.update(currentUserDocRef, {
-                            friendList: arrayRemove({uid: friend.uid, displayName: friend.displayName}),
+                            friendList: arrayRemove(friendObject),
                         });
+
                         transaction.update(friendDocRef, {
-                            friendList: arrayRemove({uid: currentUser.uid, displayName: currentUser.displayName}),
+                            friendList: arrayRemove(currentUserObject),
                         });
                     })
                 );

@@ -99,9 +99,6 @@
                     <span class="material-icons-outlined">autorenew</span>
                     {{ 'home.hero.new_quote' | translate }} ({{ quoteRequestsLeft }}/3)
                 </button>
-
-
-
             </div>
 
             <div class=" justify-center items-center bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
@@ -246,22 +243,39 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <ng-container *ngIf="!isStatsLoading && lastRoomCharts.length > 0; else loadingStats">
-                <div *ngFor="let chart of lastRoomCharts"
-                     (click)="navigateToRoomByCode(chart.code)"
-                     class="cursor-pointer bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl animate-slide-up h-[350px] flex items-center justify-center">
+            <ng-container *ngIf="!isStatsLoading">
+                <ng-container *ngIf="lastRoomCharts.length > 0; else noStats">
+                    <div *ngFor="let chart of lastRoomCharts"
+                         (click)="navigateToRoomByCode(chart.code)"
+                         class="cursor-pointer bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl animate-slide-up h-[350px] flex items-center justify-center">
+                        <apx-chart
+                                [series]="chart.options.series"
+                                [chart]="chart.options.chart"
+                                [labels]="chart.options.labels"
+                                [responsive]="chart.options.responsive"
+                                [title]="chart.options.title"
+                                class="w-fit sm:w-full h-full ">
+                        </apx-chart>
+                    </div>
+                </ng-container>
 
-                    <apx-chart
-                            [series]="chart.options.series"
-                            [chart]="chart.options.chart"
-                            [labels]="chart.options.labels"
-                            [responsive]="chart.options.responsive"
-                            [title]="chart.options.title"
-                            class="w-fit sm:w-full h-full "
-                    ></apx-chart>
-                </div>
-
+                <ng-template #noStats>
+                    <div class="col-span-full text-center text-gray-500 dark:text-gray-400 text-xl py-8">
+                        {{ 'home.stats.noData' | translate }}
+                    </div>
+                </ng-template>
             </ng-container>
+
+            <ng-template [ngIf]="isStatsLoading">
+                <ng-container *ngFor="let i of [1,2,3]">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 h-[420px] flex items-center justify-center animate-slide-up">
+                        <div class="relative w-12 h-12">
+                            <div class="absolute inset-0 rounded-full border-4 border-indigo-500 border-t-transparent animate-spin"></div>
+                            <span class="sr-only">Loading chart...</span>
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-template>
 
             <ng-template #loadingStats>
                 <ng-container *ngFor="let i of [1,2,3]">
@@ -277,10 +291,12 @@
         <div class="mt-6 flex justify-center">
             <button
                     (click)="openRoomModal()"
-                    class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-md shadow transition-all duration-300">
+                    [disabled]="lastRoomCharts.length === 0"
+                    class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-md shadow transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
                 <span class="material-icons-outlined">bar_chart</span>
                 {{ 'room.moreStats' | translate }}
             </button>
+
         </div>
     </div>
 </div>

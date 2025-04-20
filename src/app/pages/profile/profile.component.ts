@@ -191,7 +191,7 @@ export class ProfileComponent implements OnInit {
 
                 this.imageUploadService.deleteImageByPath(imagePath)
                     .catch((err) => {
-                        console.warn(`⚠️ Nem sikerült törölni a képet (${imagePath}) vagy nem létezett.`, err);
+                        console.error(err);
                     })
                     .finally(() => {
                         this.imageUploadService
@@ -246,24 +246,37 @@ export class ProfileComponent implements OnInit {
         });
     }
 
-    resetPassword() {
-        const shouldReset = confirm("Are you sure you want to update your password?");
-        if (shouldReset) {
-            this.user$.pipe(take(1)).subscribe((user) => {
-                if (user && user.email) {
-                    const email = user.email;
-                    this.authService.resetPassword(email).subscribe(
-                        () => {
-                        },
-                        (error) => {
-                            console.error("Error sending password reset email", error);
-                        }
-                    );
-                } else {
-                    console.error("Email address is required");
-                }
-            });
-        }
+    resetPassword(event: Event): void {
+        event.stopPropagation();
+        event.preventDefault();
+        this.showResetModal = true;
+    }
+
+
+    showResetModal = false;
+
+
+
+    confirmResetPassword(): void {
+        this.user$.pipe(take(1)).subscribe((user) => {
+            if (user && user.email) {
+                const email = user.email;
+                this.authService.resetPassword(email).subscribe(
+                    () => {
+                        this.translate.get('profile.resetPasswordSuccess').subscribe(msg => this.snackbar.success(msg));
+                        this.showResetModal = false;
+                    },
+                    (error) => {
+                        console.error("Error sending password reset email", error);
+                        this.translate.get('profile.resetPasswordError').subscribe(msg => this.snackbar.error(msg));
+                        this.showResetModal = false;
+                    }
+                );
+            } else {
+                this.translate.get('profile.error.noEmail').subscribe(msg => this.snackbar.error(msg));
+                this.showResetModal = false;
+            }
+        });
     }
 
     acceptFriendRequest(requestingUserId: string) {
@@ -350,20 +363,33 @@ export class ProfileComponent implements OnInit {
 
 
     confirmFriendAction() {
-        if (!this.selectedUserToModify) return;
+        if (!this.selectedUserToModify || !this.user?.uid) return;
+
+        const currentUserId = this.user.uid;
+        const friendId = this.selectedUserToModify.uid;
 
         if (this.isFriend) {
+            this.user = {
+                ...this.user,
+                friendList: this.user.friendList?.filter(f => f.uid !== friendId) || [],
+                sentFriendRequests: this.user.sentFriendRequests?.filter(id => id !== friendId),
+                friendRequests: this.user.friendRequests?.filter(id => id !== friendId)
+            };
+            localStorage.removeItem('currentUserProfile');
+
             this.usersService.removeFriend(this.selectedUserToModify).subscribe({
                 next: () => {
-                    this.translate.get('friends.removeSuccess', {name: this.selectedUserToModify?.displayName}).subscribe(msg =>
+                    this.translate.get('friends.removeSuccess', { name: this.selectedUserToModify?.displayName }).subscribe(msg =>
                         this.snackbar.success(msg)
                     );
                     this.isFriend = false;
                     this.showConfirmModal = false;
                     this.selectedUserToModify = null;
+
+                    this.router.navigate(['/profile']);
                 },
                 error: () => {
-                    this.translate.get('friends.removeError', {name: this.selectedUserToModify?.displayName}).subscribe(msg =>
+                    this.translate.get('friends.removeError', { name: this.selectedUserToModify?.displayName }).subscribe(msg =>
                         this.snackbar.error(msg)
                     );
                     this.showConfirmModal = false;
@@ -372,7 +398,7 @@ export class ProfileComponent implements OnInit {
         } else {
             this.usersService.sendFriendRequest(this.currentUserId, this.user!.uid).subscribe({
                 next: () => {
-                    this.translate.get('friends.requestSent', {name: this.user?.displayName}).subscribe(msg =>
+                    this.translate.get('friends.requestSent', { name: this.user?.displayName }).subscribe(msg =>
                         this.snackbar.success(msg)
                     );
                     this.isFriend = true;
@@ -380,7 +406,7 @@ export class ProfileComponent implements OnInit {
                     this.selectedUserToModify = null;
                 },
                 error: () => {
-                    this.translate.get('friends.requestFailed', {name: this.user?.displayName}).subscribe(msg =>
+                    this.translate.get('friends.requestFailed', { name: this.user?.displayName }).subscribe(msg =>
                         this.snackbar.error(msg)
                     );
                     this.showConfirmModal = false;

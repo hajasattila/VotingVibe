@@ -5,7 +5,7 @@
         <div class="flex justify-between w-full md:w-auto items-center">
             <a (click)="navigateHome()"
                class="text-2xl font-extrabold tracking-tight text-indigo-600 dark:text-indigo-400 cursor-pointer">
-                VoteVibe.
+                VotingVibe.
             </a>
 
 
@@ -145,6 +145,9 @@
                             <a routerLink="/login" class="text-base hover:text-indigo-600 dark:hover:text-indigo-400">
                                 {{ 'nav.login' | translate }}
                             </a>
+                            <a routerLink="/sign-up" class="text-base hover:text-indigo-600 dark:hover:text-indigo-400">
+                                {{ 'nav.register' | translate }}
+                            </a>
                         </ng-template>
                     </div>
                 </div>
@@ -241,6 +244,10 @@
                     <a routerLink="/login"
                        class="text-base font-medium hover:text-indigo-600 dark:hover:text-indigo-600">
                         {{ 'nav.login' | translate }}
+                    </a>
+                    <a routerLink="/sign-up"
+                       class="text-base font-medium hover:text-indigo-600 dark:hover:text-indigo-600">
+                        {{ 'nav.register' | translate }}
                     </a>
                 </ng-template>
             </div>

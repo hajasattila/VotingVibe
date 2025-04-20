@@ -36,8 +36,6 @@ export class HomeComponent implements OnInit {
                 private snackbar: SnackbarService,
                 private cacheService: CacheService,
                 private cdr: ChangeDetectorRef
-
-
     ) {
     }
 
@@ -103,6 +101,7 @@ export class HomeComponent implements OnInit {
             }
         });
     }
+
     private loadFriendListWithCache(): void {
         const cachedFriendsStr = sessionStorage.getItem('friendList');
         const cachedUid = sessionStorage.getItem('friendListUid');
@@ -147,7 +146,6 @@ export class HomeComponent implements OnInit {
             this.cdr.detectChanges();
         });
     }
-
 
 
     private loadLatestUsers(): void {
@@ -215,9 +213,9 @@ export class HomeComponent implements OnInit {
             return;
         }
 
-        const headers = { 'X-Api-Key': environment.quotesApiKey };
+        const headers = {'X-Api-Key': environment.quotesApiKey};
 
-        this.http.get<any>('https://api.api-ninjas.com/v1/quotes', { headers }).subscribe({
+        this.http.get<any>('https://api.api-ninjas.com/v1/quotes', {headers}).subscribe({
             next: (data) => {
                 if (data.length > 0) {
                     this.quote = `"${data[0].quote}" — ${data[0].author}`;
@@ -235,10 +233,14 @@ export class HomeComponent implements OnInit {
     }
 
     logout() {
+        this.cacheService.clear();
+        sessionStorage.removeItem('lastRoomHash');
+        sessionStorage.removeItem('lastRoomCharts');
         this.authService.logout().subscribe(() => {
             this.router.navigate(['/']);
         });
     }
+
 
     toggleTheme(): void {
         this.themeService.toggleTheme();
@@ -384,17 +386,32 @@ export class HomeComponent implements OnInit {
         this.authService.getCurrentUser().subscribe(user => {
             if (!user?.uid) return;
 
+            const handleRooms = (rooms: RoomModel[]) => {
+                const validRooms = rooms.filter(r => !!r.pollResults && !!r.poll?.options);
+
+                if (validRooms.length === 0) {
+                    this.lastRoomCharts = [];
+                    this.isStatsLoading = false;
+                    return;
+                }
+
+                const randomRooms = [...validRooms].sort(() => 0.5 - Math.random()).slice(0, 3);
+                this.cacheService.setRooms(randomRooms);
+                this.processRooms(randomRooms, cachedHash, cachedCharts);
+            };
+
+
             if (memoryCache) {
-                this.processRooms(memoryCache, cachedHash, cachedCharts);
+                handleRooms(memoryCache);
                 return;
             }
 
             this.dbService.getRoomsForUser(user.uid).subscribe(rooms => {
-                this.cacheService.setRooms(rooms);
-                this.processRooms(rooms, cachedHash, cachedCharts);
+                handleRooms(rooms);
             });
         });
     }
+
     private processRooms(rooms: RoomModel[], cachedHash: string | null, cachedCharts: string | null): void {
 
         const sortedRooms = rooms
@@ -490,6 +507,7 @@ export class HomeComponent implements OnInit {
     navigateToRoomByCode(code: string): void {
         this.router.navigate(['/room', code, 'stats']);
     }
+
     private loadQuoteLimit(): void {
         const now = Date.now();
         const quoteTimestamp = Number(localStorage.getItem(this.QUOTE_TIME_KEY));
@@ -504,8 +522,6 @@ export class HomeComponent implements OnInit {
             this.quoteRequestsLeft = this.MAX_QUOTES_PER_DAY - quoteCount;
         }
     }
-
-
 
 
 }

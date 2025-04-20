@@ -132,7 +132,7 @@ export class StatsComponent implements OnInit, AfterViewInit {
                 return;
             }
 
-            this.roomId = room.roomId; // <-- EZT ADTAM HOZZÁ
+            this.roomId = room.roomId; //
 
             this.isPictureBased = room.voteType === 'picture';
             this.isAnonymous = room.isAnonymous ?? true;

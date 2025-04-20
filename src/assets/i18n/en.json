@@ -1,5 +1,10 @@
 {
   "profile": {
+    "resetPasswordConfirm": "Are you sure you want to send a password reset email?",
+    "resetPasswordConfirmBtn": "Yes, send it",
+    "resetPasswordSuccess": "Password reset email has been sent.",
+    "resetPasswordError": "Failed to send password reset email.",
+    "cancel": "Cancel",
     "requestPending": "Request sent",
     "addFriend": "Add Friend",
     "removeFriend": "Remove Friend",
@@ -32,6 +37,7 @@
       "friendRejected": "Friend request from {{name}} rejected successfully!"
     },
     "error": {
+      "noEmail": "User does not have an email address.",
       "fetchUser": "Failed to retrieve user data.",
       "invalidForm": "Please fill in all fields correctly!",
       "nameTaken": "This display name is already taken.",
@@ -57,6 +63,7 @@
     "profile": "Profile",
     "logout": "Logout",
     "login": "Login",
+    "register": "Register",
     "steps": "Steps",
     "friendRequestMessage": " added as a friend!",
     "noFriendRequests": "You have no new requests",
@@ -245,6 +252,7 @@
       "text": "Text based"
     },
     "error": {
+      "loginRequiredToCreate": "To create a room, please register first!",
       "loginRequired": "You must be logged in to create a room.",
       "roomNameRequired": "Please provide a room name.",
       "addToProfile": "Failed to add room to your profile: {{ error }}",
@@ -290,6 +298,7 @@
       "invalid": "Please enter a valid email address"
     },
     "password": {
+      "weak": "Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character (!@#$%^&*).",
       "label": "Password",
       "placeholder": "Password",
       "required": "Password is required"
@@ -323,6 +332,7 @@
       "seeMessages": "See messages"
     },
     "stats": {
+      "noData": "It's so empty here... 😢 Why don't you make a new poll?!👀",
       "card1": "Stats Card 1",
       "card2": "Stats Card 2",
       "card3": "Stats Card 3"
@@ -419,5 +429,66 @@
   "notifications": {
     "friendRequest": "You have a new friend request!",
     "roomInvite": "You've been invited to a room!"
+  },
+  "gdpr": {
+    "title": "Privacy Policy (GDPR)",
+    "intro": "This document explains how we process and protect personal data on the VoteVibe website.",
+    "controller": {
+      "title": "Data Controller",
+      "text": "The data controller of this website is:\n\nName: VoteVibe\nEmail: info@votevibe.hu\nWebsite: https://votevibe.hu"
+    },
+    "dataScope": {
+      "title": "Scope of Data Processed",
+      "registration": {
+        "title": "During registration and login:",
+        "email": "Email address",
+        "displayName": "Username (display name)",
+        "uid": "Unique user ID (UID)",
+        "photoURL": "Profile picture (if any)",
+        "firebaseAuth": "Identifiers managed by Firebase Authentication"
+      },
+      "rooms": {
+        "title": "During usage of polls and rooms:",
+        "results": "Voting results",
+        "roomData": "Data of rooms created by the user",
+        "relationships": "Invitations, friend list, user relationships",
+        "firestoreData": "Structured data stored in Firebase Firestore"
+      },
+      "localStorage": {
+        "title": "LocalStorage / SessionStorage:",
+        "language": "Language settings",
+        "preferences": "User preferences (e.g., dark/light mode)",
+        "sessionData": "Session data for faster loading and better UX",
+        "note": "Important: These data are stored in the browser and are not shared with third parties."
+      }
+    },
+    "legal": {
+      "title": "Legal Basis of Processing",
+      "consent": "Consent of the data subject (GDPR Article 6(1)(a))",
+      "contract": "Performance of a contract (e.g., account creation, service delivery) (GDPR Article 6(1)(b))"
+    },
+    "storage": {
+      "title": "Storage Location",
+      "text": "Data is stored on Google Firebase infrastructure. Firebase is a service provided by Google LLC. The Firebase privacy policy applies."
+    },
+    "retention": {
+      "title": "Data Retention Period",
+      "account": "Personal data will be deleted upon account deletion.",
+      "localSession": "Local/sessionStorage data is deleted upon browser close or manual deletion."
+    },
+    "rights": {
+      "title": "Your Rights",
+      "access": "Access your personal data",
+      "rectify": "Request correction of your data",
+      "restrict": "Request restriction of processing",
+      "delete": "Request deletion of your data ('right to be forgotten')",
+      "object": "Object to data processing",
+      "portability": "Data portability",
+      "complaint": "File a complaint with the supervisory authority (e.g., NAIH – https://naih.hu/)"
+    },
+    "cookies": {
+      "title": "Cookies",
+      "text": "This website does not use cookies for marketing or analytics. Local/sessionStorage is used only for essential functionality."
+    }
   }
 }

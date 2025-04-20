@@ -39,6 +39,7 @@ import {MatLegacySnackBarModule as MatSnackBarModule} from '@angular/material/le
 import {StepsComponent} from './pages/steps/steps.component';
 import {StatsComponent} from './pages/stats/stats.component';
 import {NgApexchartsModule} from 'ng-apexcharts';
+import {GdprComponent} from "./pages/gdpr/gdpr.component";
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -67,6 +68,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         NavBarComponent,
         StepsComponent,
         StatsComponent,
+        GdprComponent,
+
     ],
     imports: [
         NgApexchartsModule,

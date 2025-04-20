@@ -26,6 +26,23 @@ export function passwordsMatchValidator(): ValidatorFn {
     };
 }
 
+export function strongPasswordValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+        const value = control.value;
+        if (!value) return null;
+
+        const hasUpperCase = /[A-Z]/.test(value);
+        const hasLowerCase = /[a-z]/.test(value);
+        const hasDigit = /[0-9]/.test(value);
+        const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(value);
+        const isValidLength = value.length >= 6;
+
+        const isStrong = hasUpperCase && hasLowerCase && hasDigit && hasSpecialChar && isValidLength;
+
+        return !isStrong ? {weakPassword: true} : null;
+    };
+}
+
 @Component({
     selector: 'app-sign-up',
     templateUrl: './sign-up.component.html',
@@ -36,7 +53,7 @@ export class SignUpComponent implements OnInit {
         {
             name: ['', Validators.required],
             email: ['', [Validators.required, Validators.email]],
-            password: ['', Validators.required],
+            password: ['', [Validators.required, strongPasswordValidator()]],
             confirmPassword: ['', Validators.required],
         },
         {validators: passwordsMatchValidator()}
@@ -102,5 +119,10 @@ export class SignUpComponent implements OnInit {
                     });
                 }
             });
+    }
+
+    navigateToLogin(event: MouseEvent) {
+        event.preventDefault();
+        this.router.navigate(['/login']);
     }
 }

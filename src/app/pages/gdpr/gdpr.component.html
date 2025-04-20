@@ -1,0 +1,67 @@
+<div class="min-h-screen flex items-center justify-center px-4 pt-20 lg:pt-24 mt-2 pb-6">
+    <div class="w-full max-w-4xl bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg shadow-lg p-6 md:p-10 leading-relaxed">
+
+        <h1 class="text-3xl font-bold mb-6 text-indigo-700 dark:text-indigo-300">{{ 'gdpr.title' | translate }}</h1>
+
+        <p class="mb-6">{{ 'gdpr.intro' | translate }}</p>
+
+        <h2 class="text-2xl font-semibold mb-2">1. {{ 'gdpr.controller.title' | translate }}</h2>
+        <p class="mb-4 whitespace-pre-line">{{ 'gdpr.controller.text' | translate }}</p>
+
+        <h2 class="text-2xl font-semibold mb-2">2. {{ 'gdpr.dataScope.title' | translate }}</h2>
+        <p class="mb-2 font-semibold">2.1 {{ 'gdpr.dataScope.registration.title' | translate }}</p>
+        <ul class="list-disc list-inside mb-4">
+            <li>{{ 'gdpr.dataScope.registration.email' | translate }}</li>
+            <li>{{ 'gdpr.dataScope.registration.displayName' | translate }}</li>
+            <li>{{ 'gdpr.dataScope.registration.uid' | translate }}</li>
+            <li>{{ 'gdpr.dataScope.registration.photoURL' | translate }}</li>
+            <li>{{ 'gdpr.dataScope.registration.firebaseAuth' | translate }}</li>
+        </ul>
+
+        <p class="mb-2 font-semibold">2.2 {{ 'gdpr.dataScope.rooms.title' | translate }}</p>
+        <ul class="list-disc list-inside mb-4">
+            <li>{{ 'gdpr.dataScope.rooms.results' | translate }}</li>
+            <li>{{ 'gdpr.dataScope.rooms.roomData' | translate }}</li>
+            <li>{{ 'gdpr.dataScope.rooms.relationships' | translate }}</li>
+            <li>{{ 'gdpr.dataScope.rooms.firestoreData' | translate }}</li>
+        </ul>
+
+        <p class="mb-2 font-semibold">2.3 {{ 'gdpr.dataScope.localStorage.title' | translate }}</p>
+        <ul class="list-disc list-inside mb-4">
+            <li>{{ 'gdpr.dataScope.localStorage.language' | translate }}</li>
+            <li>{{ 'gdpr.dataScope.localStorage.preferences' | translate }}</li>
+            <li>{{ 'gdpr.dataScope.localStorage.sessionData' | translate }}</li>
+            <li class="font-semibold">{{ 'gdpr.dataScope.localStorage.note' | translate }}</li>
+        </ul>
+
+        <h2 class="text-2xl font-semibold mb-2">3. {{ 'gdpr.legal.title' | translate }}</h2>
+        <ul class="list-disc list-inside mb-4">
+            <li>{{ 'gdpr.legal.consent' | translate }}</li>
+            <li>{{ 'gdpr.legal.contract' | translate }}</li>
+        </ul>
+
+        <h2 class="text-2xl font-semibold mb-2">4. {{ 'gdpr.storage.title' | translate }}</h2>
+        <p class="mb-4">{{ 'gdpr.storage.text' | translate }}</p>
+
+        <h2 class="text-2xl font-semibold mb-2">5. {{ 'gdpr.retention.title' | translate }}</h2>
+        <ul class="list-disc list-inside mb-4">
+            <li>{{ 'gdpr.retention.account' | translate }}</li>
+            <li>{{ 'gdpr.retention.localSession' | translate }}</li>
+        </ul>
+
+        <h2 class="text-2xl font-semibold mb-2">6. {{ 'gdpr.rights.title' | translate }}</h2>
+        <ul class="list-disc list-inside mb-4">
+            <li>{{ 'gdpr.rights.access' | translate }}</li>
+            <li>{{ 'gdpr.rights.rectify' | translate }}</li>
+            <li>{{ 'gdpr.rights.restrict' | translate }}</li>
+            <li>{{ 'gdpr.rights.delete' | translate }}</li>
+            <li>{{ 'gdpr.rights.object' | translate }}</li>
+            <li>{{ 'gdpr.rights.portability' | translate }}</li>
+            <li>{{ 'gdpr.rights.complaint' | translate }}</li>
+        </ul>
+
+        <h2 class="text-2xl font-semibold mb-2">7. {{ 'gdpr.cookies.title' | translate }}</h2>
+        <p>{{ 'gdpr.cookies.text' | translate }}</p>
+
+    </div>
+</div>

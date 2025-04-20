@@ -1,28 +1,28 @@
 <form [formGroup]="loginForm" (ngSubmit)="submit()">
     <div class="pt-20 lg:pt-0 flex items-center min-h-screen p-4 lg:justify-center bg-gray-100 dark:bg-gray-900 transition-colors duration-300 z-50">
         <div class="flex flex-col md:flex-row overflow-hidden bg-white dark:bg-gray-800 rounded-xl shadow-lg max-w-screen-md w-full transition-all duration-300 hover:shadow-xl">
-            <div class="animate-slideIn py-8 px-6 text-white bg-indigo-800 md:w-72 flex flex-col justify-between">
+            <div class="animate-slideIn p-4 text-white bg-indigo-800 md:w-72 flex flex-col justify-between">
                 <div>
-                    <h1 class="text-4xl font-bold text-center tracking-wide mb-6">VoteVibe</h1>
+                    <h1 class="text-4xl font-bold text-center tracking-wide mb-6">VotingVibe</h1>
                     <p class="text-sm text-indigo-100 text-center">
                         {{ 'login.introLine1' | translate }}<br />
                         {{ 'login.introLine2' | translate }}
                     </p>
                 </div>
-                <div class="mt-10 text-center text-sm">
-                    <p class="text-indigo-100">{{ 'login.noAccount' | translate }}</p>
-                    <a routerLink="/sign-up" class="text-white underline hover:text-indigo-200">{{ 'login.getStarted' | translate }}</a>
-                    <p class="mt-4 text-indigo-200">
-                        {{ 'login.read' | translate }}
-                        <a href="#" class="underline hover:text-indigo-100">{{ 'login.terms' | translate }}</a>
-                        {{ 'login.and' | translate }}
-                        <a href="#" class="underline hover:text-indigo-100">{{ 'login.conditions' | translate }}</a>
-                    </p>
+                <div class="mt-40 text-center text-sm">
+                    <p class="text-indigo-100 !pb-0 !mb-0 ">{{ 'login.noAccount' | translate }}</p>
+                    <a routerLink="/sign-up" class=" pt-0 mt-0 text-white underline hover:text-indigo-200 text-md">{{ 'login.getStarted' | translate }}</a>
+<!--                    <p class="pt-4 text-indigo-200">-->
+<!--                        {{ 'login.read' | translate }}-->
+<!--                        <a href="#" class="underline hover:text-indigo-100">{{ 'login.terms' | translate }}</a>-->
+<!--                        {{ 'login.and' | translate }}-->
+<!--                        <a href="#" class="underline hover:text-indigo-100">{{ 'login.conditions' | translate }}</a>-->
+<!--                    </p>-->
                 </div>
             </div>
 
             <!-- Jobb oldal -->
-            <div class="p-8 bg-white dark:bg-gray-800 md:flex-1 transition-colors duration-300">
+            <div class="p-4 bg-white dark:bg-gray-800 md:flex-1 transition-colors duration-300">
                 <h2 class="text-2xl font-bold text-indigo-800 dark:text-indigo-300 text-center mb-6">
                     {{ 'login.title' | translate }}
                 </h2>

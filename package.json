@@ -1,12 +1,14 @@
 {
-  "name": "angular-sign-up",
-  "version": "0.0.0",
+  "name": "votingvibe",
+  "version": "1.0.0",
+  "description": "A közösségi szavazáskezelő webapp szakdolgozat projekthez",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "compodoc": "npx compodoc -p tsconfig.doc.json"
   },
   "private": true,
   "dependencies": {

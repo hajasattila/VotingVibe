@@ -53,13 +53,15 @@ export class ProfileSearchComponent implements OnInit {
                         ? this.userService.getFilteredUsers(text).pipe(
                             map(users =>
                                 users.filter(user =>
-                                    !this.currentUserId || user.uid !== this.currentUserId
+                                    (!this.currentUserId || user.uid !== this.currentUserId) &&
+                                    !user.suspended
                                 )
                             )
                         )
                         : of([])
                 )
             );
+
         });
     }
 

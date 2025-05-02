@@ -1,5 +1,16 @@
 {
   "profile": {
+    "suspendedBadge": "Zárolt",
+    "suspendAccount": "Fiók felfüggesztése",
+    "unsuspendAccount": "Fiók feloldása",
+    "suspendWarning": "A fiókod felfüggesztésre kerül. Ezután nem jelenik meg másoknak, és nem tudsz csatlakozni vagy játékot indítani.",
+    "suspendConfirm": "Felfüggesztés",
+    "suspendSuccess": "A fiókod sikeresen felfüggesztve lett.",
+    "suspendError": "Hiba történt a fiók felfüggesztése során.",
+    "unsuspendWarning": "Feloldod a fiók felfüggesztését?",
+    "unsuspendConfirm": "Feloldás",
+    "unsuspendSuccess": "Felfüggesztés feloldva.",
+    "unsuspendError": "Hiba történt a feloldáskor.",
     "resetPasswordConfirm": "Biztosan szeretnél jelszó-visszaállító emailt küldeni?",
     "resetPasswordConfirmBtn": "Igen, küldés",
     "resetPasswordSuccess": "A jelszó-visszaállító email elküldve.",
@@ -143,6 +154,7 @@
     "github": "GitHub belépés"
   },
   "room": {
+
     "noMatches": "Nincs találat",
     "search": "Szobák keresése név szerint...",
     "errorMaxImages": "Legfeljebb 10 képet tölthetsz fel",
@@ -263,6 +275,7 @@
       "code": "Kód"
     },
     "error": {
+      "suspendedAccount": "Fiókod felfüggesztve van, így nem hozhatsz létre és nem csatlakozhatsz szobához.",
       "loginRequiredToCreate": "Ehhez a funkcióhoz először regisztrálnod kell!",
       "loginRequired": "Be kell jelentkezned a szoba létrehozásához.",
       "roomNameRequired": "Adj meg egy szobanevet!",

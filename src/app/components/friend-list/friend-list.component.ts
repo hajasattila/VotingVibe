@@ -5,7 +5,7 @@ import {
     OnChanges,
     SimpleChanges, ChangeDetectorRef, OnDestroy
 } from "@angular/core";
-import {of} from "rxjs";
+import {forkJoin, of, take} from "rxjs";
 import {switchMap} from "rxjs/operators";
 import {ProfileUser} from "../../../api/models/user.model";
 import {UsersService} from "../../../api/services/users-service/users.service";
@@ -101,18 +101,26 @@ export class FriendListComponent implements OnInit, OnChanges, OnDestroy {
                     this.cdr.markForCheck();
                 } else {
                     this.friendsSub = this.userService.getFriendsLive(this.currentUserId).subscribe(liveFriends => {
-                        const cached = this.cache.getFriends(this.currentUserId!);
-                        const changed = !cached ||
-                            cached.length !== liveFriends.length ||
-                            cached.some((c, i) => c.uid !== liveFriends[i]?.uid);
+                        console.log('💡 Lekért barát UID-k:', liveFriends.map(f => f.uid));
 
-                        if (changed) {
-                            this.friends = liveFriends;
-                            this.cache.setFriends(this.currentUserId!, liveFriends);
+                        const fullProfiles$ = liveFriends.map(f =>
+                            this.userService.getUserById(f.uid).pipe(take(1))
+                        );
+
+                        forkJoin(fullProfiles$).subscribe(fullFriends => {
+                            console.log('📋 Teljes barát adatok:');
+                            fullFriends.forEach(friend =>
+                                console.log(`👤 ${friend.displayName} (${friend.uid}) - Suspended: ${friend.suspended}`)
+                            );
+
+                            this.friends = fullFriends;
+                            this.cache.setFriends(this.currentUserId!, fullFriends);
                             this.loadFriendImages();
                             this.cdr.markForCheck();
-                        }
+                        });
                     });
+
+
                 }
             }
         });
@@ -191,16 +199,19 @@ export class FriendListComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     openConfirmModal(friend: ProfileUser) {
-        if (this.isProfileRoute) {
-            this.router.navigate([`/profile/${friend.uid}`]);
-            return;
-        }
+        this.userService.getUserById(friend.uid).subscribe((fullFriend) => {
+            if (fullFriend?.suspended === true) return;
 
-        this.selectedFriend = friend;
-        this.showConfirmModal = true;
-        this.deletionSuccess = false;
+            if (this.isProfileRoute) {
+                this.router.navigate([`/profile/${friend.uid}`]);
+                return;
+            }
+
+            this.selectedFriend = fullFriend;
+            this.showConfirmModal = true;
+            this.deletionSuccess = false;
+        });
     }
-
 
     cancelDelete() {
         this.selectedFriend = null;

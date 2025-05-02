@@ -38,6 +38,9 @@ export class ProfileComponent implements OnInit {
 
     isLoading: boolean = true;
 
+    showSuspendModal = false;
+
+
     profileForm = this.fb.group({
         uid: [""],
         displayName: ["", [Validators.required, Validators.maxLength(12)]],
@@ -374,7 +377,7 @@ export class ProfileComponent implements OnInit {
 
             this.usersService.removeFriend(this.selectedUserToModify).subscribe({
                 next: () => {
-                    this.translate.get('friends.removeSuccess', { name: this.selectedUserToModify?.displayName }).subscribe(msg =>
+                    this.translate.get('friends.removeSuccess', {name: this.selectedUserToModify?.displayName}).subscribe(msg =>
                         this.snackbar.success(msg)
                     );
                     this.isFriend = false;
@@ -384,7 +387,7 @@ export class ProfileComponent implements OnInit {
                     this.router.navigate(['/profile']);
                 },
                 error: () => {
-                    this.translate.get('friends.removeError', { name: this.selectedUserToModify?.displayName }).subscribe(msg =>
+                    this.translate.get('friends.removeError', {name: this.selectedUserToModify?.displayName}).subscribe(msg =>
                         this.snackbar.error(msg)
                     );
                     this.showConfirmModal = false;
@@ -393,7 +396,7 @@ export class ProfileComponent implements OnInit {
         } else {
             this.usersService.sendFriendRequest(this.currentUserId, this.user!.uid).subscribe({
                 next: () => {
-                    this.translate.get('friends.requestSent', { name: this.user?.displayName }).subscribe(msg =>
+                    this.translate.get('friends.requestSent', {name: this.user?.displayName}).subscribe(msg =>
                         this.snackbar.success(msg)
                     );
                     this.isFriend = true;
@@ -401,7 +404,7 @@ export class ProfileComponent implements OnInit {
                     this.selectedUserToModify = null;
                 },
                 error: () => {
-                    this.translate.get('friends.requestFailed', { name: this.user?.displayName }).subscribe(msg =>
+                    this.translate.get('friends.requestFailed', {name: this.user?.displayName}).subscribe(msg =>
                         this.snackbar.error(msg)
                     );
                     this.showConfirmModal = false;
@@ -418,6 +421,34 @@ export class ProfileComponent implements OnInit {
 
     get isCurrentUserFriend(): boolean {
         return !!this.user?.friendList?.some(f => f.uid === this.currentUserId);
+    }
+
+    toggleSuspend() {
+        if (!this.user?.uid) return;
+
+        this.showSuspendModal = false;
+
+        const newState = !this.user.suspended;
+
+        this.usersService.updateUser({uid: this.user.uid, suspended: newState}).subscribe({
+            next: () => {
+                const translationKey = newState ? 'profile.suspendSuccess' : 'profile.unsuspendSuccess';
+                this.translate.get(translationKey).subscribe(msg => this.snackbar.success(msg));
+                this.user!.suspended = newState;
+                this.cdRef.detectChanges();
+            },
+            error: () => {
+                const translationKey = newState ? 'profile.suspendError' : 'profile.unsuspendError';
+                this.translate.get(translationKey).subscribe(msg => this.snackbar.error(msg));
+            }
+        });
+    }
+
+
+    openSuspendModal(event: Event): void {
+        event.preventDefault();
+        event.stopPropagation();
+        this.showSuspendModal = true;
     }
 
 }

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-sign-up": {
+    "votingvibe": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular-sign-up",
+            "outputPath": "dist/votingvibe",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -31,7 +31,6 @@
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
               "src/styles.scss"
             ],
-
             "scripts": [
               "node_modules/animejs/lib/anime.min.js"
             ]
@@ -67,16 +66,16 @@
               "namedChunks": true
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "angular-sign-up:build:production"
+              "browserTarget": "votingvibe:build:production"
             },
             "development": {
-              "buildTarget": "angular-sign-up:build:development"
+              "browserTarget": "votingvibe:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +83,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "angular-sign-up:build"
+            "buildTarget": "votingvibe:build"
           }
         },
         "test": {
@@ -103,7 +102,6 @@
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
               "src/styles.scss"
             ],
-
             "scripts": [
               "node_modules/animejs/lib/anime.min.js"
             ]
@@ -114,14 +112,15 @@
           "options": {
             "prerender": false,
             "ssr": false,
-            "browserTarget": "angular-sign-up:build:production",
-            "firebaseProject": "angular-sign-up",
-            "firebaseHostingSite": "angular-sign-up"
+            "browserTarget": "votingvibe:build:production",
+            "firebaseProject": "votingvibe",
+            "firebaseHostingSite": "votingvibe"
           }
         }
       }
     }
   },
+  "defaultProject": "votingvibe",
   "cli": {
     "analytics": false
   }

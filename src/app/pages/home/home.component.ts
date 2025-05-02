@@ -134,18 +134,26 @@ export class HomeComponent implements OnInit {
 
     private loadRandomUsersNotFriends(currentUid: string, friends: ProfileUser[]): void {
         this.userService.getUsersNotInFriendList(currentUid).pipe(
-            map(users =>
-                users.filter(u =>
-                    u.uid !== currentUid &&
-                    !friends.some(f => f.uid === u.uid)
-                )
-            )
+            map(users => {
+                const filtered = users.filter(u => {
+                    const isNotCurrentUser = u.uid !== currentUid;
+                    const isNotFriend = !friends.some(f => f.uid === u.uid);
+                    const isNotSuspended = !u.suspended;
+
+                    console.log(`[AJÁNLOTT] User: ${u.displayName} | UID: ${u.uid} | Suspended: ${u.suspended}`);
+                    return isNotCurrentUser && isNotFriend && isNotSuspended;
+                });
+
+                return filtered;
+            })
         ).subscribe(filtered => {
             this.randomUsersNotFriends = this.getRandomUsers(filtered, 5);
             this.isRandomUsersLoading = false;
             this.cdr.detectChanges();
         });
     }
+
+
 
 
     private loadLatestUsers(): void {

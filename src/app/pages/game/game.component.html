@@ -105,7 +105,7 @@
                     <button
                             (click)="createRoom()"
                             type="button"
-                            [disabled]="!isAuthenticated"
+                            [disabled]="!isAuthenticated || currentUser?.suspended"
                             class="bg-indigo-600 text-white py-2 px-6 rounded-lg transition mt-6 text-center flex mx-auto
          hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
@@ -149,10 +149,13 @@
                     <button
                             (click)="joinRoom()"
                             type="button"
-                            class="bg-indigo-600 text-white py-2 px-6 rounded-lg hover:bg-indigo-700 transition"
+                            [disabled]="currentUser?.suspended"
+                            class="bg-indigo-600 text-white py-2 px-6 rounded-lg hover:bg-indigo-700 transition
+         disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {{ 'room.join' | translate }}
                     </button>
+
 
                     <div *ngIf="userRooms.length > 0" class="mt-4">
                         <a [routerLink]="['/home']" [queryParams]="{ openModal: 'rooms' }"
@@ -169,22 +172,34 @@
     <div class="flex flex-col sm:flex-row gap-6 items-center justify-center">
         <label
                 *ngIf="!showRoomDetails"
-                class="mb-6 animate-slideIn w-[260px] h-[140px] flex justify-center items-center cursor-pointer bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition duration-300 ease-in-out text-center"
-                (click)="toggleRoomDetails()"
+                [class.cursor-not-allowed]="currentUser?.suspended"
+                [class.opacity-50]="currentUser?.suspended"
+                class="mb-6 animate-slideIn w-[260px] h-[140px] flex justify-center items-center bg-white dark:bg-gray-800 rounded-lg shadow-lg transition duration-300 ease-in-out text-center"
+                [ngClass]="{'hover:bg-gray-300 dark:hover:bg-gray-700 cursor-pointer': !currentUser?.suspended}"
+                (click)="!currentUser?.suspended && toggleRoomDetails()"
         >
-      <span class="text-xl sm:text-2xl font-bold text-gray-700 dark:text-gray-100 transition duration-300 ease-in-out">
-        {{ 'room.generateRoom' | translate }}
-      </span>
+  <span class="text-xl sm:text-2xl font-bold text-gray-700 dark:text-gray-100">
+    {{ 'room.generateRoom' | translate }}
+  </span>
         </label>
+
 
         <label
                 *ngIf="!showRoomForm"
-                class="mb-6 animate-slideOut w-[260px] h-[140px] flex justify-center items-center cursor-pointer bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition duration-300 ease-in-out text-center"
-                (click)="toggleRoomForm()"
+                [class.cursor-not-allowed]="currentUser?.suspended"
+                [class.opacity-50]="currentUser?.suspended"
+                class="mb-6 animate-slideOut w-[260px] h-[140px] flex justify-center items-center bg-white dark:bg-gray-800 rounded-lg shadow-lg transition duration-300 ease-in-out text-center"
+                [ngClass]="{'hover:bg-gray-300 dark:hover:bg-gray-700 cursor-pointer': !currentUser?.suspended}"
+                (click)="!currentUser?.suspended && toggleRoomForm()"
         >
-      <span class="text-xl sm:text-2xl font-bold text-gray-700 dark:text-gray-100">
-        {{ 'room.joinRoom' | translate }}
-      </span>
+  <span class="text-xl sm:text-2xl font-bold text-gray-700 dark:text-gray-100">
+    {{ 'room.joinRoom' | translate }}
+  </span>
         </label>
+
     </div>
+    <p *ngIf="currentUser?.suspended" class="text-red-600 dark:text-red-400 pt-4 text-sm text-center">
+        {{ 'room.error.suspendedAccount' | translate }}
+    </p>
+
 </div>

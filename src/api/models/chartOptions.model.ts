@@ -1,10 +1,7 @@
 import {
-    ApexNonAxisChartSeries,
-    ApexChart,
-    ApexResponsive,
-    ApexTitleSubtitle,
-    ApexTheme,
-    ApexLegend
+ApexNonAxisChartSeries, ApexChart,
+ApexResponsive, ApexTitleSubtitle,
+ApexTheme, ApexLegend
 } from 'ng-apexcharts';
 
 export type ChartOptions = {

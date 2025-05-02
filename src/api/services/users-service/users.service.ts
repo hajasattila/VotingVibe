@@ -78,7 +78,7 @@ export class UsersService {
 
     getFilteredUsers(query: string): Observable<ProfileUser[]> {
         const usersRef = collection(this.firestore, "users");
-        return collectionData(usersRef, {idField: "uid"}).pipe(
+        return collectionData(usersRef, { idField: "uid" }).pipe(
             map((users: any[]) =>
                 users.map(
                     (user: any) =>
@@ -95,10 +95,16 @@ export class UsersService {
                             friendList: user.friendList,
                             games: user.games,
                             polls: user.polls,
+                            suspended: user.suspended || false
                         } as ProfileUser)
                 )
             ),
-            map((users: ProfileUser[]) => users.filter((user) => user.displayName?.toLowerCase().includes(query.toLowerCase())))
+            map((users: ProfileUser[]) =>
+                users.filter(user =>
+                    !user.suspended &&
+                    user.displayName?.toLowerCase().includes(query.toLowerCase())
+                )
+            )
         );
     }
 
@@ -351,6 +357,7 @@ export class UsersService {
                                 friendList: user.friendList,
                                 games: user.games,
                                 polls: user.polls,
+                                suspended: user.suspended ?? false
                             } as ProfileUser))
                             .filter(u => u.uid !== userId && !friendUids.includes(u.uid))
                     )

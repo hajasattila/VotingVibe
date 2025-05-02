@@ -7,13 +7,29 @@
         <ul *ngIf="!isLoadingFriends" class="flex flex-wrap justify-start space-x-4 pt-2">
             <li *ngFor="let friend of friends" class="friend-item">
                 <div class="flex flex-col items-center">
-                    <div class="friend-avatar relative">
-                        <img
-                                class="w-10 h-10 rounded-full mb-2 cursor-pointer hover:opacity-75"
-                                [src]="getFriendPhotoURL(friend.uid)"
-                                alt="Profile Image"
-                                (click)="openConfirmModal(friend)"
-                        />
+                    <div class="friend-avatar relative group">
+                        <div
+                                class="w-10 h-10 rounded-full mb-2 transition-all duration-200 flex items-center justify-center overflow-hidden"
+                                [ngClass]="{
+          'cursor-pointer hover:opacity-75': !friend.suspended,
+          'opacity-50 cursor-not-allowed grayscale': friend.suspended
+        }"
+                                (click)="!friend.suspended && openConfirmModal(friend)"
+                        >
+                            <img
+                                    [src]="getFriendPhotoURL(friend.uid)"
+                                    [alt]="getFriendDisplayName(friend)"
+                                    class="w-full h-full object-cover"
+                            />
+                        </div>
+
+                        <div
+                                *ngIf="friend.suspended"
+                                class="absolute -bottom-1.5 -right-1.5 bg-red-600 text-white text-[10px] px-1 py-[1px] rounded-full opacity-90 select-none font-semibold z-10"
+                        >
+                            {{ 'profile.suspendedBadge' | translate }}
+                        </div>
+
                         <div
                                 *ngIf="!isProfileRoute && invitedFriends.has(friend.uid)"
                                 class="absolute top-0 right-0 bg-green-100 p-1 rounded-full"
@@ -25,9 +41,9 @@
                         </div>
                     </div>
 
-                    <div class="friend-details text-center">
-                        <h4>
-                            <strong>{{ getFriendDisplayName(friend) }}</strong>
+                    <div class="friend-details text-center mt-1">
+                        <h4 class="text-sm font-medium" [ngClass]="{'text-gray-500 line-through': friend.suspended, 'text-gray-800 dark:text-white': !friend.suspended}">
+                            {{ getFriendDisplayName(friend) }}
                         </h4>
                     </div>
                 </div>

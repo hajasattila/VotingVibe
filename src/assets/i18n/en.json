@@ -1,5 +1,12 @@
 {
   "profile": {
+    "suspendedBadge": "Suspended",
+    "suspendAccount": "Suspend Account",
+    "unsuspendAccount": "Unsuspend Account",
+    "suspendWarning": "Your account will be suspended. It will no longer be visible to others and you won't be able to join or create games.",
+    "suspendConfirm": "Suspend",
+    "suspendSuccess": "Your account has been successfully suspended.",
+    "suspendError": "An error occurred while suspending your account.",
     "resetPasswordConfirm": "Are you sure you want to send a password reset email?",
     "resetPasswordConfirmBtn": "Yes, send it",
     "resetPasswordSuccess": "Password reset email has been sent.",
@@ -255,6 +262,7 @@
       "text": "Text based"
     },
     "error": {
+      "suspendedAccount": "Your account is suspended. You cannot create or join rooms.",
       "loginRequiredToCreate": "To create a room, please register first!",
       "loginRequired": "You must be logged in to create a room.",
       "roomNameRequired": "Please provide a room name.",

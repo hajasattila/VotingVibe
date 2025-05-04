@@ -33,6 +33,9 @@
             ],
             "scripts": [
               "node_modules/animejs/lib/anime.min.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "apexcharts"
             ]
           },
           "configurations": {
